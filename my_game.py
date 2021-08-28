@@ -6,7 +6,6 @@ while con=="Y":
     print(deck)
 
     # Define a 2D list with all entries as 0
-
     player = [0 for j in range(13)]
     bot1 = [0 for j in range(13)]
     bot2 = [0 for j in range(13)]
