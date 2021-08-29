@@ -1,9 +1,13 @@
 # import modules
 import itertools, random
-con = "Y"
-while con=="Y":
+con = 'yes'
+final_p = 0
+final_bot3 = 0
+final_bot2 = 0
+final_bot1 = 0
+while con[0].lower() == 'y':
     def input_user():
-        n=(input("Enter the input in the form of H,A OR S,K from the set given to you: "))
+        n=(input("Choose a card from your list of cards: "))
         n=list(n)
         ar=[]
         if len(n)==2:
@@ -19,11 +23,13 @@ while con=="Y":
         ls=[''.join(ele) for ele in rl] 
         res=[i for i in ls]
         return res
+    
+    def list_str(l):
+        return (str(l[1]+l[0]))
 
     # make a deck of cards
     deck = list(itertools.product(['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'],
                                 ['S', 'H', 'D', 'C']))
-    print(len(deck))
     # shuffle the cards
     random.shuffle(deck)
     # Define a 2D list with all entries as 0
@@ -125,18 +131,19 @@ while con=="Y":
     bot1_call = calls(bot1)
     bot2_call = calls(bot2)
     bot3_call = calls(bot3)
-    player_call  = input(f"Call of Players: Bot1-> {str(bot1_call)} Bot2-> {str(bot2_call)} Bot3-> {str(bot3_call)} Player-> ")
-    print("Order of arrangement: Bot1, Bot2, Player, Bot3, Bot1, ...... ")
+    player_call = int(input("\nMake your Call that how many times you might win=> "))
+    print("Call of Players: Bot1->"+str(bot1_call)+ " Bot2->"+str(bot2_call)+ " Bot3->"+str(bot3_call)+ " Player->"+str(player_call))
+    print("\nOrder of arrangement: Bot1, Bot2, Player, Bot3, Bot1, ......\n ")
 
     start = input("Who is gonna start the game ( bot1 / bot2 / bot3 / player )? ")
 
     def win_fxn(l):
         
         if(l[0]==player):
+            m=str_fxn(l[0])
+            print("Your Cards => ",*m)
             x=input_user()
             l[0].remove(x)
-            m=str_fxn(l[0])
-            print(*m)
             a =x[1]
             #l[0]will be remaining option for player
             #x1 be variable for Bot1
@@ -151,7 +158,7 @@ while con=="Y":
                 if bot3[i][1]==a:
                     l_x3.append(bot3[i])
             l_x3=sort_fxn(l_x3)
-            print(l_x3)
+            
             for i in range(len(bot3)):
                 if len(l_x3)>1:
                     for j in range(len(l_x3)):
@@ -167,7 +174,8 @@ while con=="Y":
                 else:
                     x3=bot3[-1]
             bot3.remove(x3)
-            print("x3 ",x3)
+            
+            print("Bot3 -> ",list_str(x3))
 
             l_x1=[]
             l_x1.append(x)
@@ -175,7 +183,7 @@ while con=="Y":
                 if bot1[i][1]==a:
                     l_x1.append(bot1[i])
             l_x1=sort_fxn(l_x1)
-            print(l_x1)
+            
             for i in range(len(bot1)):
                 if len(l_x1)>1:
                     for j in range(len(l_x1)):
@@ -191,7 +199,8 @@ while con=="Y":
                 else:
                     x1=bot1[-1]
             bot1.remove(x1)
-            print("x1 ",x1)
+            
+            print("Bot1 -> ",list_str(x1))
 
             l_x2=[]
             l_x2.append(x)
@@ -199,7 +208,7 @@ while con=="Y":
                 if bot2[i][1]==a:
                     l_x2.append(bot2[i])
             l_x2=sort_fxn(l_x2)
-            print(l_x2)
+            
             for i in range(len(bot2)):
                 if len(l_x2)>1:
                     for j in range(len(l_x2)):
@@ -215,21 +224,24 @@ while con=="Y":
                 else:
                     x2=bot2[-1]
             bot2.remove(x2)
-            print("x2 ",x2)
+            print("Bot2 -> ",list_str(x2))
+
+            
 
         elif(l[1]==player):
             
             x2=bot2[0]
             bot2.remove(x2)
-            print("x2 ",x2)
+
+            print("Bot2 -> ",list_str(x2))
             a = x2[1]
             check_list=[]
             check_list.append(x2)
 
+            m=str_fxn(l[1])
+            print("Your Cards => ",*m)
             x=input_user()
             l[1].remove(x)
-            m=str_fxn(l[1])
-            print(*m)
             if x[1]==a:
                 check_list.append(x)
                 
@@ -239,7 +251,7 @@ while con=="Y":
                 if bot3[i][1]==a:
                     l_x3.append(bot3[i])
             l_x3=sort_fxn(l_x3)
-            print(l_x3)           
+                        
             for i in range(len(bot3)):
                 if len(l_x3)>1:
                     for j in range(len(l_x3)):
@@ -255,7 +267,8 @@ while con=="Y":
                 else:
                     x3=bot3[-1]
             bot3.remove(x3)
-            print("x3 ",x3)
+            
+            print("Bot3 ->",list_str(x3))
 
             l_x1=[]
             l_x1.append(x2)
@@ -263,7 +276,7 @@ while con=="Y":
                 if bot1[i][1]==a:
                     l_x1.append(bot1[i])
             l_x1=sort_fxn(l_x1)
-            print(l_x1)
+            
             for i in range(len(bot1)):
                 if len(l_x1)>1:
                     for j in range(len(l_x1)):
@@ -279,14 +292,16 @@ while con=="Y":
                 else:
                     x1=bot1[-1]
             bot1.remove(x1)
-            print("x1 ",x1)
+            
+            print("Bot1 -> ",list_str(x1))
 
 
         elif(l[2]==player):
             
             x1=bot1[0]
             bot1.remove(x1)
-            print("x1 ",x1)
+            
+            print("Bot1 -> ",list_str(x1))
             a=x1[1]
             check_list=[]
             check_list.append(x1)
@@ -297,7 +312,7 @@ while con=="Y":
                 if bot2[i][1]==a:
                     l_x2.append(bot2[i])
             l_x2=sort_fxn(l_x2)
-            print(l_x2)
+            
             for i in range(len(bot2)):
                 if len(l_x2)>1:
                     for j in range(len(l_x2)):
@@ -313,12 +328,13 @@ while con=="Y":
                 else:
                     x2=bot2[-1]
             bot2.remove(x2)
-            print("x2 ",x2)
             
+            print("Bot2 -> ",list_str(x2))
+            
+            m=str_fxn(l[2])
+            print("Your Cards => ",*m)
             x=input_user()
             l[2].remove(x)
-            m=str_fxn(l[2])
-            print(*m)
             if x[1]==a:
                 check_list.append(x)
 
@@ -328,7 +344,7 @@ while con=="Y":
                 if bot3[i][1]==a:
                     l_x3.append(bot3[i])
             l_x3=sort_fxn(l_x3)
-            print(l_x3)           
+                        
             for i in range(len(bot3)):
                 if len(l_x3)>1:
                     for j in range(len(l_x3)):
@@ -344,14 +360,16 @@ while con=="Y":
                 else:
                     x3=bot3[-1]
             bot3.remove(x3)
-            print("x3 ",x3)
+            
+            print("Bot3 -> ",list_str(x3))
             
 
         elif(l[3]==player):
             
             x3=bot3[0]
             bot3.remove(x3)
-            print("x3 ",x3)
+            
+            print("Bot3 -> ",list_str(x3))
             a=x3[1]
             check_list=[]
             check_list.append(x3)
@@ -362,7 +380,7 @@ while con=="Y":
                 if bot2[i][1]==a:
                     l_x2.append(bot2[i])
             l_x2=sort_fxn(l_x2)
-            print(l_x2)
+
             for i in range(len(bot2)):
                 if len(l_x2)>1:
                     for j in range(len(l_x2)):
@@ -378,7 +396,8 @@ while con=="Y":
                 else:
                     x2=bot2[-1]
             bot2.remove(x2)
-            print("x2 ",x2)
+            
+            print("Bot2 -> ",list_str(x2))
 
             l_x1=[]
             l_x1.append(x3)
@@ -386,7 +405,7 @@ while con=="Y":
                 if bot1[i][1]==a:
                     l_x1.append(bot1[i])
             l_x1=sort_fxn(l_x1)
-            print(l_x1)
+
             for i in range(len(bot1)):
                 if len(l_x1)>1:
                     for j in range(len(l_x1)):
@@ -402,31 +421,31 @@ while con=="Y":
                 else:
                     x1=bot1[-1]
             bot1.remove(x1)
-            print("x1 ",x1)
+            
+            print("Bot1 -> ",list_str(x1))
 
+            m=str_fxn(l[3])
+            print("Your Cards => ",*m)
             x=input_user()
             l[3].remove(x)
-            m=str_fxn(l[3])
-            print(*m)
             if x[1]==a:
                 check_list.append(x)
 
-        print("CHECK_LIST",check_list)
 
         f=sort_fxn(check_list)
         if f[0]==x1:
-            print("Bot1 wins")
+            print("\nBot1 wins")
             return ("Bot1")
         elif f[0]==x2:
-            print("Bot2 wins")
+            print("\nBot2 wins")
             return("Bot2")
             
         elif f[0]==x3:
-            print("Bot3 wins")
+            print("\nBot3 wins")
             return("Bot3")
             
         else:
-            print("Player wins")
+            print("\nPlayer wins")
             return('Player')
             
 
@@ -443,7 +462,7 @@ while con=="Y":
     if start == 'bot1':
         order = [bot1, bot2,player, bot3]
         for i in range(0,13):
-            print("TURN - ",i+1)
+            print("\nTURN-",i+1)
             x=win_fxn(order)
             if x=='Bot1':
                 bot1_win+=1
@@ -457,48 +476,12 @@ while con=="Y":
             else:
                 p_win+=1
                 order=[player, bot3, bot1, bot2]
-        
 
-        if(bot1_call>bot1_win):
-            bot1_score += -10*(bot1_call)
-        else:
-            bot1_score += 10*(bot1_call) + (bot1_win-bot1_call)
-        if(bot2_call>bot2_win):
-            bot2_score += -10*(bot2_call)
-        else:
-            bot2_score += 10*(bot2_call) + (bot2_win-bot2_call)
-        if(bot3_call>bot3_win):
-            bot3_score += -10*(bot3_call)
-        else:
-            bot3_score += 10*(bot3_call) + (bot3_win-bot3_call)
-        if(player_call>p_win):
-            p_score += -10*(player_call)
-        else:
-            p_score += 10*(player_call) + (p_win-player_call)
-
-        win_list=[bot1_score,bot2_score,bot3_score,p_score]
-        win_list.sort()
-        final_list = list(set(win_list))
-        if final_list != win_list:
-            print("The game is tied")
-
-        elif win_list[-1]==bot1_score:
-            print("Bot1 won")
-            
-        elif win_list[-1]==bot2_score:
-            print("Bot2 won")
-            
-        elif win_list[-1]==bot3_score:
-            print("Bot3 won")
-            
-        elif win_list[-1]==p_score:
-            print("Player won")
-            
         
     elif start == 'player':
         order = [player, bot3, bot1, bot2]
         for i in range(0,13):
-            print("TURN - ",i+1)
+            print("\nTURN-",i+1)
             x=win_fxn(order)
             if x=='Bot1':
                 bot1_win+=1
@@ -512,46 +495,12 @@ while con=="Y":
             else:
                 p_win+=1
                 order=[player, bot3, bot1, bot2]
-        if(bot1_call>bot1_win):
-            bot1_score += -10*(bot1_call)
-        else:
-            bot1_score += 10*(bot1_call) + (bot1_win-bot1_call)
-        if(bot2_call>bot2_win):
-            bot2_score += -10*(bot2_call)
-        else:
-            bot2_score += 10*(bot2_call) + (bot2_win-bot2_call)
-        if(bot3_call>bot3_win):
-            bot3_score += -10*(bot3_call)
-        else:
-            bot3_score += 10*(bot3_call) + (bot3_win-bot3_call)
-        if(player_call>p_win):
-            p_score += -10*(player_call)
-        else:
-            p_score += 10*(player_call) + (p_win-player_call)
-
-        win_list=[bot1_score,bot2_score,bot3_score,p_score]
-        win_list.sort()
-        final_list = list(set(win_list))
-        if final_list != win_list:
-            print("The game is tied")
-
-        elif win_list[-1]==bot1_score:
-            print("Bot1 won")
-        
-        elif win_list[-1]==bot2_score:
-            print("Bot2 won")
-            
-        elif win_list[-1]==bot3_score:
-            print("Bot3 won")
-            
-        elif win_list[-1]==p_score:
-            print("Player won")
             
             
     elif start == 'bot3':
         order = [bot3, bot1, bot2, player]
         for i in range(0,13):
-            print("TURN - ",i+1)
+            print("\nTURN - ",i+1)
             x=win_fxn(order)
             if x=='Bot1':
                 bot1_win+=1
@@ -565,45 +514,12 @@ while con=="Y":
             else:
                 p_win+=1
                 order=[player, bot3, bot1, bot2]
-        if(bot1_call>bot1_win):
-            bot1_score += -10*(bot1_call)
-        else:
-            bot1_score += 10*(bot1_call) + (bot1_win-bot1_call)
-        if(bot2_call>bot2_win):
-            bot2_score += -10*(bot2_call)
-        else:
-            bot2_score += 10*(bot2_call) + (bot2_win-bot2_call)
-        if(bot3_call>bot3_win):
-            bot3_score += -10*(bot3_call)
-        else:
-            bot3_score += 10*(bot3_call) + (bot3_win-bot3_call)
-        if(player_call>p_win):
-            p_score += -10*(player_call)
-        else:
-            p_score += 10*(player_call) + (p_win-player_call)
-
-        win_list=[bot1_score,bot2_score,bot3_score,p_score]
-        win_list.sort()
-        final_list = list(set(win_list))
-        if final_list != win_list:
-            print("The game is tied")
-        elif win_list[-1]==bot1_score:
-            print("Bot1 won")
-            
-        elif win_list[-1]==bot2_score:
-            print("Bot2 won")
-            
-        elif win_list[-1]==bot3_score:
-            print("Bot3 won")
-            
-        elif win_list[-1]==p_score:
-            print("Player won")
             
 
     elif start=='bot2':
         order=[bot2,player,bot3,bot1]
         for i in range(0,13):
-            print("TURN - ",i+1)
+            print("\nTURN - ",i+1)
             x=win_fxn(order)
             if x=='Bot1':
                 bot1_win+=1
@@ -617,39 +533,61 @@ while con=="Y":
             else:
                 p_win+=1
                 order=[player, bot3, bot1, bot2]
-        if(bot1_call>bot1_win):
-            bot1_score += -10*(bot1_call)
-        else:
-            bot1_score += 10*(bot1_call) + (bot1_win-bot1_call)
-        if(bot2_call>bot2_win):
-            bot2_score += -10*(bot2_call)
-        else:
-            bot2_score += 10*(bot2_call) + (bot2_win-bot2_call)
-        if(bot3_call>bot3_win):
-            bot3_score += -10*(bot3_call)
-        else:
-            bot3_score += 10*(bot3_call) + (bot3_win-bot3_call)
-        if(player_call>p_win):
-            p_score += -10*(player_call)
-        else:
-            p_score += 10*(player_call) + (p_win-player_call)
 
-        win_list=[bot1_score,bot2_score,bot3_score,p_score]
-        win_list.sort()
-        final_list = list(set(win_list))
-        if final_list != win_list:
-            print("The game is tied")
 
-        elif win_list[-1]==bot1_score:
-            print("Bot1 won")
-            
-        elif win_list[-1]==bot2_score:
-            print("Bot2 won")
-            
-        elif win_list[-1]==bot3_score:
-            print("Bot3 won")
-            
-        elif win_list[-1]==p_score:
-            print("Player won")
-    
-    con = input("Continue(Y/N): ")
+    if(bot1_call>bot1_win):
+        bot1_score += -10*(bot1_call)
+    else:
+        bot1_score += 10*(bot1_call) + (bot1_win-bot1_call)
+    if(bot2_call>bot2_win):
+        bot2_score += -10*(bot2_call)
+    else:
+        bot2_score += 10*(bot2_call) + (bot2_win-bot2_call)
+    if(bot3_call>bot3_win):
+        bot3_score += -10*(bot3_call)
+    else:
+        bot3_score += 10*(bot3_call) + (bot3_win-bot3_call)
+    if(player_call>p_win):
+        p_score += -10*(player_call)
+    else:
+        p_score += 10*(player_call) + (p_win-player_call)
+
+    win_list=[bot1_score,bot2_score,bot3_score,p_score]
+    win_list.sort()
+    if win_list[-1]==win_list[-2]:
+        print("\nIt's a Tie")
+    elif win_list[-1]==bot1_score:
+        print("\nBot1 won")
+        
+    elif win_list[-1]==bot2_score:
+        print("\nBot2 won")
+        
+    elif win_list[-1]==bot3_score:
+        print("\nBot3 won")
+        
+    elif win_list[-1]==p_score:
+        print("\nPlayer won")
+
+    final_bot1+=bot1_score
+    final_bot2+=bot2_score
+    final_bot3+=bot3_score
+    final_p+=p_score
+
+    cont = input("Continue (Y/N): ")
+
+final_list = [final_bot1, final_bot2, final_bot3, final_p]
+final_list.sort()
+if final_list[-1]==final_list[-2]:
+    print("\nIt's a Tie !!!")
+
+elif final_list == final_bot1:
+    print("Bot1 wins the series !!")
+
+elif final_list== final_bot2:
+    print("Bot 2 wins the series !!")
+
+elif final_list== final_bot3:
+    print("Bot 3 wins the series !!")
+
+elif final_list== final_p:
+    print("Plater wins the series !!")
